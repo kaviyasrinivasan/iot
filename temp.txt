@@ -1,0 +1,52 @@
+#include <DHT.h>
+#define DHTPIN 2         // DHT11 connected to digital pin 2
+#define DHTTYPE DHT11    // Sensor type is DHT11
+#define outputPin 8      // LED or buzzer connected to pin 8
+DHT dht(DHTPIN, DHTTYPE);
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+  pinMode(outputPin, OUTPUT);
+}
+void loop() {
+  float temperature = dht.readTemperature(); // Read temperature in °C
+
+  if (isnan(temperature)) {
+    Serial.println("Failed to read from DHT11 sensor!");
+    return;
+  }
+
+  Serial.print("Temperature: ");
+  Serial.print(temperature);
+  Serial.println(" °C");
+
+  // If temperature > 30°C, turn on LED or buzzer
+  if (temperature > 30.0) {
+    digitalWrite(outputPin, HIGH);
+  } else {
+    digitalWrite(outputPin, LOW);
+  }
+
+  delay(1000); // Wait 1 second before next reading
+}
+
+
+
+
+
+
+
+
+DHT11 sensor:
+
+VCC → 5V
+
+GND → GND
+
+Data → Pin 2 (use a 10kΩ pull-up resistor between Data and VCC)
+
+LED or Buzzer:
+
+Positive leg → Pin 8
+
+Negative leg → GND (use a 220Ω resistor for LED)
