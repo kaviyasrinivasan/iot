@@ -1,0 +1,15 @@
+const int sensorPin=2;
+
+void setup(){
+  Serial.begin(9600);
+}
+void loop(){
+  int sensorValue=analogRead(sensorPin);
+  float v=sensorValue*(5.0/1023.0);
+  float tempC=v*100;
+  Serial.print("temp:");
+  Serial.print(tempC);
+  Serial.println("c");
+  delay(1000);
+}
+  
