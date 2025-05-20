@@ -1,0 +1,53 @@
+// Ultrasonic Alarm System
+
+const int buzzer = 8;
+const int trigpin = 7;
+const int echopin = 6;
+
+long sure;
+float mesafe;
+
+void setup()
+{
+  Serial.begin(9600);
+
+  pinMode(buzzer, OUTPUT);
+  pinMode(trigpin, OUTPUT);
+  pinMode(echopin, INPUT);
+}
+
+void loop()
+{
+  // Triggering the ultrasonic pulse
+  digitalWrite(trigpin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigpin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigpin, LOW);
+
+  // Reading the echo pulse duration
+  sure = pulseIn(echopin, HIGH);
+
+  // Calculating distance in cm
+  mesafe = (sure / 2.0) / 29.0;
+
+  // Activating buzzer if object is within 150 cm
+  if (mesafe <= 150)
+  {
+    digitalWrite(buzzer, HIGH);
+    delay(250);
+    digitalWrite(buzzer, LOW);
+    delay(125);
+  }
+  else
+  {
+    digitalWrite(buzzer, LOW);
+  }
+
+  // Print distance to Serial Monitor
+  Serial.print("Distance = ");
+  Serial.print(mesafe);
+  Serial.println(" cm");
+
+  delay(500); // delay for readability
+}
