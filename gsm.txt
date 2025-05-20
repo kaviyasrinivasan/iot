@@ -1,0 +1,51 @@
+#include <SoftwareSerial.h>
+
+SoftwareSerial gsm(10, 11); // RX, TX
+
+void setup() {
+  Serial.begin(9600);        // Monitor
+  gsm.begin(9600);           // GSM module
+
+  Serial.println("Initializing...");
+  delay(1000);
+
+  gsm.println("AT");         // Send AT command
+}
+
+void loop() {
+  if (gsm.available()) {
+    Serial.write(gsm.read());  // Show response from GSM
+  }
+
+  if (Serial.available()) {
+    gsm.write(Serial.read());  // Forward input from Serial Monitor to GSM
+  }
+}
+
+
+
+
+
+
+
+GSM TX → Arduino RX (e.g., pin 10)
+
+GSM RX → Arduino TX (e.g., pin 11, through voltage divider if 5V)
+
+GND → GND
+
+Power → External 4V–4.2
+
+
+
+
+
+
+
+AT+CMGF=1
+
+AT+CMGS="+91XXXXXXXXXX"
+
+ATD+91XXXXXXXXXX;
+
+ATD
